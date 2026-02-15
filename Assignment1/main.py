@@ -42,6 +42,7 @@ class SandwichMachine:
         """Receives resources as input.
            Hint: bind input variable to self variable"""
         self.machine_resources = machine_resources
+        self = input("Enter resources: ")
 
     def check_resources(self, ingredients):
         """Returns True when order can be made, False if ingredients are insufficient."""
