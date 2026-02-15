@@ -42,21 +42,37 @@ class SandwichMachine:
         """Receives resources as input.
            Hint: bind input variable to self variable"""
         self.machine_resources = machine_resources
-        self = input("Enter resources: ")
 
     def check_resources(self, ingredients):
         """Returns True when order can be made, False if ingredients are insufficient."""
+        if (self.machine_resources.bread >= ingredients["bread"] & self.machine_resources.ham >= ingredients["ham"] & self.machine_resources.cheese >= ingredients["cheese"]):
+            return True
+        else:
+            return False
 
     def process_coins(self):
         """Returns the total calculated from coins inserted.
            Hint: include input() function here, e.g. input("how many quarters?: ")"""
+        dollars = int(input("How many dollars? "))
+        halfdollars = int(input("How many half-dollars? "))
+        quarters = int(input("How many quarters? "))
+        nickels = int(input("How many nickels? "))
+        total = (dollars*1 + halfdollars*0.5 + quarters*0.25 + nickels*0.05)
+        return total
 
     def transaction_result(self, coins, cost):
         """Return True when the payment is accepted, or False if money is insufficient.
            Hint: use the output of process_coins() function for cost input"""
+        if (coins >= cost):
+            return True
+        else:
+            return False
 
     def make_sandwich(self, sandwich_size, order_ingredients):
         """Deduct the required ingredients from the resources.
            Hint: no output"""
+        self.machine_resources["bread"] -= order_ingredients["bread"]
+        self.machine_resources["ham"] -= order_ingredients["ham"]
+        self.machine_resources["cheese"] -= order_ingredients["cheese"]
 
 ### Make an instance of SandwichMachine class and write the rest of the codes ###
