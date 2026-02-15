@@ -76,3 +76,35 @@ class SandwichMachine:
         self.machine_resources["cheese"] -= order_ingredients["cheese"]
 
 ### Make an instance of SandwichMachine class and write the rest of the codes ###
+
+def main():
+    subway = SandwichMachine(resources)
+
+    choice = ("What size sandwich would you like? (small/medium/large/off/report): ").lower()
+
+    if choice == "off":
+        print("Bye!")
+        break
+
+    elif choice == "report":
+        print("\n--- Report ---")
+        print(f"Bread:  {subway.machine_resources['bread']} slices")
+        print(f"Ham:    {subway.machine_resources['ham']} slices")
+        print(f"Cheese: {subway.machine_resources['cheese']} ounces")
+        continue
+
+    elif choice in recipes:
+        sandwich = recipes[choice]
+        ingredients_needed = sandwich["ingredients"]
+        cost = sandwich["cost"]
+
+        if subway.check_resources(ingredients_needed):
+            payment = subway.process_coins()
+
+            if subway.transaction_result(payment, cost):
+                subway.make_sandwich(choice, ingredients_needed)
+        else:
+            print("Sorry, there are not enough ingredients to make that sandwich.")
+    else:
+        print("Invalid choice")
+    
