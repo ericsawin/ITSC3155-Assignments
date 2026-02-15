@@ -45,7 +45,7 @@ class SandwichMachine:
 
     def check_resources(self, ingredients):
         """Returns True when order can be made, False if ingredients are insufficient."""
-        if (self.machine_resources.bread >= ingredients["bread"] & self.machine_resources.ham >= ingredients["ham"] & self.machine_resources.cheese >= ingredients["cheese"]):
+        if (self.machine_resources["bread"] >= ingredients["bread"] and self.machine_resources["ham"] >= ingredients["ham"] and self.machine_resources["cheese"] >= ingredients["cheese"]):
             return True
         else:
             return False
@@ -80,31 +80,39 @@ class SandwichMachine:
 def main():
     subway = SandwichMachine(resources)
 
-    choice = ("What size sandwich would you like? (small/medium/large/off/report): ").lower()
+    while True:
+        choice = input("What size sandwich would you like? (small/medium/large/off/report): ").lower()
 
-    if choice == "off":
-        print("Bye!")
-        break
+        if choice == "off":
+            print("Bye!")
+            break
+            
 
-    elif choice == "report":
-        print("\n--- Report ---")
-        print(f"Bread:  {subway.machine_resources['bread']} slices")
-        print(f"Ham:    {subway.machine_resources['ham']} slices")
-        print(f"Cheese: {subway.machine_resources['cheese']} ounces")
-        continue
+        elif choice == "report":
+            print("\n--- Report ---")
+            print(f"Bread:  {subway.machine_resources['bread']} slices")
+            print(f"Ham:    {subway.machine_resources['ham']} slices")
+            print(f"Cheese: {subway.machine_resources['cheese']} ounces")
+            
 
-    elif choice in recipes:
-        sandwich = recipes[choice]
-        ingredients_needed = sandwich["ingredients"]
-        cost = sandwich["cost"]
+        elif choice in recipes:
+            sandwich = recipes[choice]
+            ingredients_needed = sandwich["ingredients"]
+            cost = sandwich["cost"]
 
-        if subway.check_resources(ingredients_needed):
-            payment = subway.process_coins()
+            if subway.check_resources(ingredients_needed):
+                payment = subway.process_coins()
 
-            if subway.transaction_result(payment, cost):
-                subway.make_sandwich(choice, ingredients_needed)
+                if subway.transaction_result(payment, cost):
+                    subway.make_sandwich(choice, ingredients_needed)
+                
+                if (payment > cost):
+                    print(payment-cost)
+                    print("is your change")
+            else:
+                print("Sorry, there are not enough ingredients to make that sandwich.")
         else:
-            print("Sorry, there are not enough ingredients to make that sandwich.")
-    else:
-        print("Invalid choice")
-    
+            print("Invalid choice")
+
+if __name__ == "__main__":
+    main()
